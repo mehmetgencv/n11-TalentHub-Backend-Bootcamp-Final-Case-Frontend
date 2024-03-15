@@ -1,69 +1,94 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import StarIcon from "@mui/icons-material/Star";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
 
-export default function Users() {
-  const [users, setUsers] = useState([]);
+export default function Restaurants() {
+  const [restaurants, setRestaurants] = useState([]);
 
   useEffect(() => {
-    loadUsers();
+    loadRestaurants();
   }, []);
 
-  const loadUsers = async () => {
+  const loadRestaurants = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/v1/users");
+      const response = await axios.get(
+        "http://localhost:8081/api/v1/restaurants"
+      );
       console.log("response", response);
       if (Array.isArray(response.data.data)) {
-        setUsers(response.data.data); // Update the state with fetched data
+        setRestaurants(response.data.data); // Update the state with fetched data
       } else {
         console.error("Invalid data format received:", response.data.data);
       }
     } catch (error) {
-      console.error("Error fetching users:", error);
+      console.error("Error fetching restaurants:", error);
     }
   };
 
-  const deleteUser = async (id) => {
-    await axios.delete(`http://localhost:8080/api/v1/users/${id}`);
-    loadUsers();
+  const deleteRestaurant = async (id) => {
+    await axios.delete(`http://localhost:8081/api/v1/restaurants/${id}`);
+    loadRestaurants();
+  };
+
+  const renderStars = (rate) => {
+    const stars = [];
+    for (let i = 0; i < 5; i++) {
+      if (i < rate) {
+        stars.push(<StarIcon key={i} />);
+      } else {
+        stars.push(<StarBorderIcon key={i} />);
+      }
+    }
+    return (
+      <>
+        <span>{stars}</span>
+        <span>({rate})</span>
+      </>
+    );
   };
 
   return (
     <div className="container">
       <div className="py-4">
         <div className="d-flex justify-content-between align-items-center mb-3">
-          <h1>User List</h1>
-          <Link className="btn btn-primary" to="/users/addUser">
-            Add User
+          <h1>Restaurant List</h1>
+          <Link className="btn btn-primary" to="/restaurants/addRestaurant">
+            Add Restaurant
           </Link>
         </div>
         <table className="table border">
           <thead>
             <tr>
               <th scope="col">#</th>
-              <th scope="col">First</th>
-              <th scope="col">Last</th>
+              <th scope="col">Name</th>
+              <th scope="col">Rate</th>
+              <th scope="col">Address</th>
+              <th scope="col">Phone</th>
               <th scope="col">Email</th>
               <th scope="col">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {users.map((user) => (
-              <tr key={user.id}>
-                <th scope="row">{user.id}</th>
-                <td>{user.name}</td>
-                <td>{user.surname}</td>
-                <td>{user.email}</td>
+            {restaurants.map((restaurant) => (
+              <tr key={restaurant.id}>
+                <th scope="row">{restaurant.id}</th>
+                <td>{restaurant.name}</td>
+                <td>{renderStars(restaurant.rate)}</td>
+                <td>{restaurant.address}</td>
+                <td>{restaurant.phone}</td>
+                <td>{restaurant.email}</td>
                 <td>
                   <Link
                     className="btn btn-outline-primary me-2"
-                    to={`/users/updateUser/${user.id}`}
+                    to={`/restaurants/updateRestaurant/${restaurant.id}`}
                   >
                     Edit
                   </Link>
                   <button
                     className="btn btn-danger"
-                    onClick={() => deleteUser(user.id)}
+                    onClick={() => deleteRestaurant(restaurant.id)}
                   >
                     Delete
                   </button>
