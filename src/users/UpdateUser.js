@@ -30,7 +30,7 @@ export default function UpdateUser() {
   const onSubmit = async (e) => {
     e.preventDefault();
     await axios.put(`http://localhost:8080/api/v1/users/${id}`, user);
-    navigate("/");
+    navigate("/users");
   };
 
   const resetForm = () => {
