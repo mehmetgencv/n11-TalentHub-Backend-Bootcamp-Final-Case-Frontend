@@ -57,6 +57,12 @@ export default function Users() {
                 <td>
                   <Link
                     className="btn btn-outline-primary me-2"
+                    to={`/users/viewUser/${user.id}`}
+                  >
+                    View
+                  </Link>
+                  <Link
+                    className="btn btn-outline-primary me-2"
                     to={`/users/updateUser/${user.id}`}
                   >
                     Edit
