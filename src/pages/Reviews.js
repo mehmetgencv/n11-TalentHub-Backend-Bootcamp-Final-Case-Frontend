@@ -3,7 +3,9 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 
 export default function Reviews() {
-  const [Reviews, setReviews] = useState([]);
+  const [reviews, setReviews] = useState([]);
+  const [userId, setUserId] = useState("");
+  const [restaurantId, setRestaurantId] = useState("");
 
   useEffect(() => {
     loadReviews();
@@ -11,10 +13,21 @@ export default function Reviews() {
 
   const loadReviews = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/v1/reviews");
+      let response;
+      if (userId) {
+        response = await axios.get(
+          `http://localhost:8080/api/v1/reviews/findAllReviewsByUserId/${userId}`
+        );
+      } else if (restaurantId) {
+        response = await axios.get(
+          `http://localhost:8080/api/v1/reviews/findAllReviewsByRestaurantId/${restaurantId}`
+        );
+      } else {
+        response = await axios.get(`http://localhost:8080/api/v1/reviews`);
+      }
       console.log("response", response);
       if (Array.isArray(response.data.data)) {
-        setReviews(response.data.data); // Update the state with fetched data
+        setReviews(response.data.data);
       } else {
         console.error("Invalid data format received:", response.data.data);
       }
@@ -28,13 +41,47 @@ export default function Reviews() {
     loadReviews();
   };
 
+  const handleUserIdChange = (event) => {
+    setUserId(event.target.value);
+  };
+
+  const handleRestaurantIdChange = (event) => {
+    setRestaurantId(event.target.value);
+  };
+
   return (
     <div className="container">
       <div className="py-4">
         <div className="d-flex justify-content-between align-items-center mb-3">
-          <h1>Rewiew List</h1>
+          <h1>Review List</h1>
+          <div>
+            {userId && (
+              <button className="btn btn-primary me-2" onClick={loadReviews}>
+                List by User Id
+              </button>
+            )}
+            <input
+              type="text"
+              placeholder="Enter User Id"
+              value={userId}
+              onChange={handleUserIdChange}
+            />
+          </div>
+          <div>
+            {restaurantId && (
+              <button className="btn btn-primary me-2" onClick={loadReviews}>
+                List by Restaurant Id
+              </button>
+            )}
+            <input
+              type="text"
+              placeholder="Enter Restaurant Id"
+              value={restaurantId}
+              onChange={handleRestaurantIdChange}
+            />
+          </div>
           <Link className="btn btn-primary" to="/reviews/addReview">
-            Add Rewiew
+            Add Review
           </Link>
         </div>
         <table className="table border">
@@ -49,7 +96,7 @@ export default function Reviews() {
             </tr>
           </thead>
           <tbody>
-            {Reviews.map((review) => (
+            {reviews.map((review) => (
               <tr key={review.id}>
                 <th scope="row">{review.id}</th>
                 <td>{review.userId}</td>
