@@ -11,7 +11,9 @@ export default function Users() {
 
   const loadUsers = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/v1/users");
+      const response = await axios.get(
+        "${process.env.REVIEW_SERVICE_URL}:8080/api/v1/users"
+      );
       console.log("response", response);
       if (Array.isArray(response.data.data)) {
         setUsers(response.data.data); // Update the state with fetched data
@@ -24,7 +26,9 @@ export default function Users() {
   };
 
   const deleteUser = async (id) => {
-    await axios.delete(`http://localhost:8080/api/v1/users/${id}`);
+    await axios.delete(
+      `${process.env.REVIEW_SERVICE_URL}:8080/api/v1/users/${id}`
+    );
     loadUsers();
   };
 

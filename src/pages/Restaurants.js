@@ -14,7 +14,7 @@ export default function Restaurants() {
   const loadRestaurants = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8081/api/v1/restaurants"
+        "${process.env.RESTAURANT_SERVICE_URL}:8081/api/v1/restaurants"
       );
       console.log("response", response);
       if (Array.isArray(response.data.data)) {
@@ -28,7 +28,9 @@ export default function Restaurants() {
   };
 
   const deleteRestaurant = async (id) => {
-    await axios.delete(`http://localhost:8081/api/v1/restaurants/${id}`);
+    await axios.delete(
+      `${process.env.RESTAURANT_SERVICE_URL}:8081/api/v1/restaurants/${id}`
+    );
     loadRestaurants();
   };
 

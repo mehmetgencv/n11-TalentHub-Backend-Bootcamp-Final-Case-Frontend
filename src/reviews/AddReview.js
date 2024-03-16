@@ -21,7 +21,10 @@ export default function AddReview() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.post("http://localhost:8080/api/v1/reviews", review);
+    await axios.post(
+      "${process.env.REVIEW_SERVICE_URL}:8080/api/v1/reviews",
+      review
+    );
     navigate("/reviews");
   };
 

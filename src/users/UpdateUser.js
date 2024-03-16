@@ -29,7 +29,10 @@ export default function UpdateUser() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.put(`http://localhost:8080/api/v1/users/${id}`, user);
+    await axios.put(
+      `${process.env.REVIEW_SERVICE_URL}:8080/api/v1/users/${id}`,
+      user
+    );
     navigate("/users");
   };
 
@@ -38,7 +41,9 @@ export default function UpdateUser() {
   };
 
   const loadUser = async () => {
-    const result = await axios.get(`http://localhost:8080/api/v1/users/${id}`);
+    const result = await axios.get(
+      `${process.env.REVIEW_SERVICE_URL}:8080/api/v1/users/${id}`
+    );
     setUser(result.data.data);
   };
 

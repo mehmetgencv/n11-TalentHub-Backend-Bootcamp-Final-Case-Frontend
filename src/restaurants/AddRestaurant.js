@@ -24,7 +24,10 @@ export default function AddRestaurant() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.post("http://localhost:8081/api/v1/restaurants", restaurant);
+    await axios.post(
+      "${process.env.RESTAURANT_SERVICE_URL}:8081/api/v1/restaurants",
+      restaurant
+    );
     navigate("/restaurants");
   };
 

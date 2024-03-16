@@ -16,14 +16,16 @@ export default function Reviews() {
       let response;
       if (userId) {
         response = await axios.get(
-          `http://localhost:8080/api/v1/reviews/findAllReviewsByUserId/${userId}`
+          `${process.env.REVIEW_SERVICE_URL}:8080/api/v1/reviews/findAllReviewsByUserId/${userId}`
         );
       } else if (restaurantId) {
         response = await axios.get(
-          `http://localhost:8080/api/v1/reviews/findAllReviewsByRestaurantId/${restaurantId}`
+          `${process.env.REVIEW_SERVICE_URL}:8080/api/v1/reviews/findAllReviewsByRestaurantId/${restaurantId}`
         );
       } else {
-        response = await axios.get(`http://localhost:8080/api/v1/reviews`);
+        response = await axios.get(
+          `${process.env.REVIEW_SERVICE_URL}:8080/api/v1/reviews`
+        );
       }
       console.log("response", response);
       if (Array.isArray(response.data.data)) {
@@ -37,7 +39,9 @@ export default function Reviews() {
   };
 
   const deleteReview = async (id) => {
-    await axios.delete(`http://localhost:8080/api/v1/reviews/${id}`);
+    await axios.delete(
+      `${process.env.REVIEW_SERVICE_URL}:8080/api/v1/reviews/${id}`
+    );
     loadReviews();
   };
 
