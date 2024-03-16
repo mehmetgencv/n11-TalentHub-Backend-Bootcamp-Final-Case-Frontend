@@ -9,10 +9,13 @@ export default function Users() {
     loadUsers();
   }, []);
 
+  const userServiceUrl = process.env.REACT_APP_REVIEW_SERVICE_URL;
+  console.log("userServiceUrl", userServiceUrl);
+
   const loadUsers = async () => {
     try {
       const response = await axios.get(
-        "${process.env.REVIEW_SERVICE_URL}:8080/api/v1/users"
+        `${process.env.REACT_APP_REVIEW_SERVICE_URL}/api/v1/users`
       );
       console.log("response", response);
       if (Array.isArray(response.data.data)) {
@@ -27,7 +30,7 @@ export default function Users() {
 
   const deleteUser = async (id) => {
     await axios.delete(
-      `${process.env.REVIEW_SERVICE_URL}:8080/api/v1/users/${id}`
+      `${process.env.REACT_APP_REVIEW_SERVICE_URL}/api/v1/users/${id}`
     );
     loadUsers();
   };

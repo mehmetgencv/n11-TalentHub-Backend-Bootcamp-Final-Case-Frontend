@@ -24,7 +24,7 @@ export default function AddUser() {
   const onSubmit = async (e) => {
     e.preventDefault();
     await axios.post(
-      "${process.env.REVIEW_SERVICE_URL}:8080/api/v1/users",
+      `${process.env.REACT_APP_REVIEW_SERVICE_URL}/api/v1/users`,
       user
     );
     navigate("/");

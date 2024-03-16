@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 
-export default function Restaurants() {
+export default function Recommendations() {
   const [restaurants, setRestaurants] = useState([]);
+  const { userId } = useParams();
 
   useEffect(() => {
     loadRestaurants();
-  }, []);
+  }, [userId]);
 
   const loadRestaurants = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_RESTAURANT_SERVICE_URL}/api/v1/restaurants`
+        `${process.env.REACT_APP_REVIEW_SERVICE_URL}/api/v1/recommendations/${userId}`
       );
       console.log("response", response);
       if (Array.isArray(response.data.data)) {
@@ -25,13 +26,6 @@ export default function Restaurants() {
     } catch (error) {
       console.error("Error fetching restaurants:", error);
     }
-  };
-
-  const deleteRestaurant = async (id) => {
-    await axios.delete(
-      `${process.env.REACT_APP_RESTAURANT_SERVICE_URL}/api/v1/restaurants/${id}`
-    );
-    loadRestaurants();
   };
 
   const renderStars = (rate) => {
@@ -56,9 +50,6 @@ export default function Restaurants() {
       <div className="py-4">
         <div className="d-flex justify-content-between align-items-center mb-3">
           <h1>Restaurant List</h1>
-          <Link className="btn btn-primary" to="/restaurants/addRestaurant">
-            Add Restaurant
-          </Link>
         </div>
         <table className="table border">
           <thead>
@@ -66,10 +57,9 @@ export default function Restaurants() {
               <th scope="col">#</th>
               <th scope="col">Name</th>
               <th scope="col">Rate</th>
-              <th scope="col">Address</th>
-              <th scope="col">Phone</th>
-              <th scope="col">Email</th>
-              <th scope="col">Actions</th>
+              <th scope="col">Latitude</th>
+              <th scope="col">Longitude</th>
+              <th scope="col">Total Score</th>
             </tr>
           </thead>
           <tbody>
@@ -78,27 +68,18 @@ export default function Restaurants() {
                 <th scope="row">{restaurant.id}</th>
                 <td>{restaurant.name}</td>
                 <td>{renderStars(restaurant.rate)}</td>
-                <td>{restaurant.address}</td>
-                <td>{restaurant.phone}</td>
-                <td>{restaurant.email}</td>
-                <td>
-                  <Link
-                    className="btn btn-outline-primary me-2"
-                    to={`/restaurants/updateRestaurant/${restaurant.id}`}
-                  >
-                    Edit
-                  </Link>
-                  <button
-                    className="btn btn-danger"
-                    onClick={() => deleteRestaurant(restaurant.id)}
-                  >
-                    Delete
-                  </button>
-                </td>
+                <td>{restaurant.latitude}</td>
+                <td>{restaurant.longitude}</td>
+                <td>{restaurant.totalScore}</td>
               </tr>
             ))}
           </tbody>
         </table>
+        <div className="card-footer text-center">
+          <Link className="btn btn-primary" to={`/users/viewUser/${userId}`}>
+            Back to User
+          </Link>
+        </div>
       </div>
     </div>
   );

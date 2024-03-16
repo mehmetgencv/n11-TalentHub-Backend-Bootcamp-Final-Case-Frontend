@@ -25,7 +25,7 @@ export default function AddRestaurant() {
   const onSubmit = async (e) => {
     e.preventDefault();
     await axios.post(
-      "${process.env.RESTAURANT_SERVICE_URL}:8081/api/v1/restaurants",
+      `${process.env.REACT_APP_RESTAURANT_SERVICE_URL}/api/v1/restaurants`,
       restaurant
     );
     navigate("/restaurants");

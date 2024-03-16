@@ -12,12 +12,12 @@ export default function LoggingPage() {
   const loadLogs = async () => {
     try {
       const errorLogsResponse = await axios.get(
-        "${process.env.LOGGING_SERVICE_URL}:8082/api/v1/logging/ErrorLogs"
+        `${process.env.REACT_APP_LOGGING_SERVICE_URL}/api/v1/logging/ErrorLogs`
       );
       setErrorLogs(errorLogsResponse.data.data);
 
       const infoLogsResponse = await axios.get(
-        "${process.env.LOGGING_SERVICE_URL}:8082/api/v1/logging/InfoLogs"
+        `${process.env.REACT_APP_LOGGING_SERVICE_URL}/api/v1/logging/InfoLogs`
       );
       setInfoLogs(infoLogsResponse.data.data);
     } catch (error) {

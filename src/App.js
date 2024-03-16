@@ -19,6 +19,7 @@ import Restaurants from "./pages/Restaurants";
 import AddRestaurant from "./restaurants/AddRestaurant";
 import UpdateRestaurant from "./restaurants/UpdateRestaurant";
 import LoggingPage from "./pages/LoggingPage";
+import Recommendations from "./users/Recommendations";
 
 function App() {
   return (
@@ -31,6 +32,11 @@ function App() {
           <Route exact path="/users/addUser" element={<AddUser />} />
           <Route exact path="/users/updateUser/:id" element={<UpdateUser />} />
           <Route exact path="/users/viewUser/:id" element={<ViewUser />} />
+          <Route
+            exact
+            path="/recommendations/:userId"
+            element={<Recommendations />}
+          />
 
           <Route exact path="/reviews" element={<Reviews />} />
           <Route exact path="/reviews/addReview" element={<AddReview />} />

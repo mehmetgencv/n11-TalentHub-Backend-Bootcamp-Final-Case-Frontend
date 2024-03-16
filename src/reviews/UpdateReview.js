@@ -29,7 +29,7 @@ export default function UpdateReview() {
   const onSubmit = async (e) => {
     e.preventDefault();
     await axios.put(
-      `${process.env.REVIEW_SERVICE_URL}:8080/api/v1/reviews/updateReview/${id}`,
+      `${process.env.REACT_APP_REVIEW_SERVICE_URL}/api/v1/reviews/updateReview/${id}`,
       review
     );
     navigate("/reviews");
@@ -41,7 +41,7 @@ export default function UpdateReview() {
 
   const loadReview = async () => {
     const result = await axios.get(
-      `${process.env.REVIEW_SERVICE_URL}:8080/api/v1/reviews/${id}`
+      `${process.env.REACT_APP_REVIEW_SERVICE_URL}/api/v1/reviews/${id}`
     );
     setReview(result.data.data);
   };

@@ -30,7 +30,7 @@ export default function UpdateRestaurant() {
   const onSubmit = async (e) => {
     e.preventDefault();
     await axios.put(
-      `${process.env.RESTAURANT_SERVICE_URL}:8081/api/v1/restaurants/${id}`,
+      `${process.env.REACT_APP_RESTAURANT_SERVICE_URL}/api/v1/restaurants/${id}`,
       restaurant
     );
     navigate("/restaurants");
@@ -42,7 +42,7 @@ export default function UpdateRestaurant() {
 
   const loadRestaurant = async () => {
     const result = await axios.get(
-      `${process.env.RESTAURANT_SERVICE_URL}:8081/api/v1/restaurants/${id}`
+      `${process.env.REACT_APP_RESTAURANT_SERVICE_URL}/api/v1/restaurants/${id}`
     );
     setRestaurant(result.data.data);
   };

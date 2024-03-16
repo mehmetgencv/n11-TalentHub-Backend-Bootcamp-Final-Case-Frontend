@@ -22,7 +22,7 @@ export default function AddReview() {
   const onSubmit = async (e) => {
     e.preventDefault();
     await axios.post(
-      "${process.env.REVIEW_SERVICE_URL}:8080/api/v1/reviews",
+      `${process.env.REACT_APP_REVIEW_SERVICE_URL}/api/v1/reviews`,
       review
     );
     navigate("/reviews");

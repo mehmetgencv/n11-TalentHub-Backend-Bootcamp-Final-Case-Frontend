@@ -21,7 +21,7 @@ export default function ViewUser() {
 
   const loadUser = async () => {
     const result = await axios.get(
-      `${process.env.REVIEW_SERVICE_URL}:8080/api/v1/users/${id}`
+      `${process.env.REACT_APP_REVIEW_SERVICE_URL}/api/v1/users/${id}`
     );
     setUser(result.data.data);
   };
@@ -64,6 +64,15 @@ export default function ViewUser() {
                 </tbody>
               </table>
             </div>
+            <div className="card-footer text-center">
+              <Link
+                className="btn btn-outline-primary me-2"
+                to={`/recommendations/${id}`}
+              >
+                Restaurant Recommendations
+              </Link>
+            </div>
+
             <div className="card-footer text-center">
               <Link className="btn btn-primary" to="/users">
                 Back to Users
