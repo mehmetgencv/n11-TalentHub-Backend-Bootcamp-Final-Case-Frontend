@@ -31,7 +31,7 @@ To run the application using Docker Compose, follow these steps:
 
 4. Access the application in your web browser:
 
-   Once the containers are up and running, you can access the application at [http://localhost:8083/](http://localhost:8083/).
+   Once the containers are up and running, you can access the application at [http://localhost:3000/](http://localhost:3000/).
 
 5. To stop the containers, run:
 
